@@ -46,3 +46,24 @@ body {
   flex-direction: column;
 
 }
+#nav{
+  height: 70px;
+  background-color:#322f3d;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+#footer{
+  height: 70px;
+  width: 100%;
+  background-color:#322f3d;
+  font-size: 20px;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  font-weight: bold;
+  color: whitesmoke;
+}
+#footer div{
+  margin-top: 20px;
+}
