@@ -41,9 +41,12 @@ body {
 .left-block div {
   font-size: 25px;
 }
-.cart{
+#products{
   display: flex;
   flex-direction: column;
+  height: 525px;
+  overflow-x: hidden; 
+  overflow-y: auto;
 
 }
 #nav{
@@ -66,4 +69,5 @@ body {
 }
 #footer div{
   margin-top: 20px;
+  padding-top: 10px;
 }

@@ -35,10 +35,21 @@ componentDidMount(){
     handleIncreaseQuantity = (product)=>{
         const {products} = this.state;
         const index =products.indexOf(product);
-        products[index].qty+= 1;
-         this.setState({
-            products : products
-         });
+        firebase
+        .firestore()
+        .collection('products')
+        .doc(products[index].id)
+        .update({ 
+            qty : products[index].qty+1
+        })
+        .then(() =>{
+            console.log("updated sucessfully");
+        })
+        .catch((err)=>{
+            console.log("error"+err);
+        });
+        
+
     }
 
 //Decrease quantity handler
@@ -46,10 +57,19 @@ componentDidMount(){
         const {products} = this.state;
         const index =products.indexOf(product);
         if(products[index].qty>=1){
-        products[index].qty-= 1;
-        this.setState({
-            products : products
-         });
+        firebase
+        .firestore()
+        .collection('products')
+        .doc(products[index].id)
+        .update({ 
+            qty : products[index].qty-1
+        })
+        .then(() =>{
+            console.log("updated sucessfully");
+        })
+        .catch((err)=>{
+            console.log("error"+err);
+        });
         }
         else{
             return;
@@ -58,13 +78,18 @@ componentDidMount(){
 
 // delete Handeler
     handleDeleteProduct = (id) => {
-        const {products} = this.state;
-        console.log(this.state.products.length);
-        const items = products.filter((item)=> item.id!==id);
-
-        this.setState({
-            products : items
+        firebase
+        .firestore()
+        .collection('products')
+        .doc(id)
+        .delete()
+        .then(() =>{
+            console.log("product deleted sucessfully");
+        })
+        .catch((err)=>{
+            console.log("error"+err);
         });
+        
     }
 // function to get  cart quantity 
     getCartQuantity = () => {
@@ -91,7 +116,9 @@ componentDidMount(){
         return(
             <div className="cart">
                 <Navbar qty={this.getCartQuantity()}/>
-               {products.map((product)=>{
+                {loading && <h1>LOADING PRODUCTS ..........</h1>}
+                <div id="products">
+                {products.map((product)=>{
                    return <CartItem 
                    product={product}
                     key={product.id}
@@ -100,7 +127,7 @@ componentDidMount(){
                     onDeleteProduct = {this.handleDeleteProduct}
                    />
                })}
-               {loading && <h1>LOADING PRODUCTS ..........</h1>}
+                </div>
                <div id="footer">
                     <div>Total:- {this.getTotal()}</div>
                </div>
